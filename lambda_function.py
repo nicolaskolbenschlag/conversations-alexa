@@ -24,22 +24,20 @@ class LaunchRequestHandler(AbstractRequestHandler):
         session_id = generate_session_id()
         session_attr = handler_input.attributes_manager.session_attributes
         session_attr["session_id"] = session_id
-        speak_output = handle_conversation_voiceflow(session_id, "init")
+        speak_output = handle_conversation_voiceflow(session_id, "init via alexa")
         return make_response(handler_input, speak_output)
     
 
 class FallbackIntentHandler(AbstractRequestHandler):
 
     def can_handle(self, handler_input: HandlerInput) -> bool:
-        return ask_utils.is_intent_name("AMAZON.FallbackIntent")(handler_input)
+        return ask_utils.is_intent_name("AMAZON.FallbackIntent")(handler_input) \
+            or ask_utils.is_intent_name("ResponseIntent")(handler_input)
 
     def handle(self, handler_input: HandlerInput) -> bool:
         session_attr = handler_input.attributes_manager.session_attributes
         session_id = session_attr["session_id"]
-        # prompt = ask_utils.get_slot_value(handler_input, "prompt")
-        prompt = handler_input.request_envelope.request
-        logging.debug(prompt.to_str())
-        prompt = "Jule stinkt"
+        prompt = handler_input.request_envelope.request.intent.slots["prompt"].slot_value.value
         speak_output = handle_conversation_voiceflow(session_id, prompt)
         return make_response(handler_input, speak_output)
 
@@ -51,7 +49,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
 
     def handle(self, handler_input: HandlerInput, exception: Exception) -> Response:
         logger.error(exception, exc_info=True)
-        speak_output = "Tut mir Leid. Etwas ist schief gelaufen. Bitte versuche es erneut."
+        speak_output = "Tut mir Leid. Etwas ist schief gelaufen. Bitte versuche es erneut. Fehler: " + str(exception)
         return make_response(handler_input, speak_output)
 
 
