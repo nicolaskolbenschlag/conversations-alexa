@@ -31,8 +31,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 class FallbackIntentHandler(AbstractRequestHandler):
 
     def can_handle(self, handler_input: HandlerInput) -> bool:
-        return ask_utils.is_intent_name("AMAZON.FallbackIntent")(handler_input) \
-            or ask_utils.is_intent_name("ResponseIntent")(handler_input)
+        return ask_utils.is_intent_name("ResponseIntent")(handler_input)
 
     def handle(self, handler_input: HandlerInput) -> bool:
         session_attr = handler_input.attributes_manager.session_attributes
