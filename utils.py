@@ -2,7 +2,7 @@ import string
 import random
 import requests
 
-VOICEFLOW_API_KEY = "VF.DM.641b4ecc9561ff0007a0c2c0.FJAVm6jVOPmRQaoW"#"<YOUR-API-KEY-HERE>"
+VOICEFLOW_API_KEY = "<YOUR-API-KEY-HERE>"
 
 
 def generate_session_id(length: int = 32) -> str:
