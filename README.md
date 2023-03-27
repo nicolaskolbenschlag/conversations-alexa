@@ -41,4 +41,4 @@ This section shows how to configure the skill.
 
 8. In the tab *Test*, select "Development" in **Skill testing is enabled in:**. You can test the skill in this tab.
 
-9. Done! Tthe skill should be available on your Alexa.
+9. Done! The skill should be available on your Alexa.
