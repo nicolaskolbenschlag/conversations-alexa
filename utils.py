@@ -2,7 +2,7 @@ import string
 import random
 import requests
 
-VOICEFLOW_API_KEY = "<YOUR-API-KEY-HERE>"
+VOICEFLOW_API_KEY = "VF.DM.641b4ecc9561ff0007a0c2c0.FJAVm6jVOPmRQaoW"#"<YOUR-API-KEY-HERE>"
 
 
 def generate_session_id(length: int = 32) -> str:
@@ -16,7 +16,11 @@ def handle_conversation_voiceflow(session_id: str, payload: str) -> str:
     response = requests.post(
         f"https://general-runtime.voiceflow.com/state/user/{session_id}/interact",
         json=body,
-        headers={"Authorization": VOICEFLOW_API_KEY},
+        headers={"Authorization": VOICEFLOW_API_KEY}
     )
 
-    return response.json()[-1]["payload"]["message"]
+    payload = [r for r in response.json() if r["type"] == "text"]
+    if len(payload) < 1:
+        return None
+    payload = payload[0]["payload"]["message"]
+    return payload
